@@ -8,9 +8,7 @@ module EmailChecker
       def reset
         @verifier_email = nil
         @test_mode = false
-        if defined?(Rails) && defined?(Rails.env) && Rails.env.test?
-          @test_mode = true
-        end
+        @test_mode = true if defined?(Rails) && defined?(Rails.env) && Rails.env.test?
       end
 
       def verifier_email=(verifier_email)
