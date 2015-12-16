@@ -2,6 +2,8 @@ require 'resolv'
 require 'email_checker/version'
 
 module EmailChecker
+  require 'email_checker/errors'
+
   autoload :Config, 'email_checker/config'
   autoload :Checker, 'email_checker/checker'
   autoload :Domain, 'email_checker/domain'

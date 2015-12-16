@@ -24,7 +24,7 @@ module EmailChecker
           return @smtp if @smtp
         end
         fail EmailChecker::ServerConnectionError, "Unable to connect to any of the mail servers for #{@email}"
-      rescue EmailVerifier::ServerConnectionError => e
+      rescue EmailChecker::ServerConnectionError => e
         fail EmailChecker::ServerConnectionError, e.message
       rescue => e
         retry
@@ -40,13 +40,13 @@ module EmailChecker
         if e.message[/^550/]
           return false
         else
-          fail EmailVerifier::FailureError, e.message
+          fail EmailChecker::FailureError, e.message
         end
       end
 
       def ensure_250(smtp_return)
         return true if smtp_return.status.to_i == 250
-        fail EmailVerifier::FailureError, "Mail server responded with #{smtp_return.status} when we were expecting 250"
+        fail EmailChecker::FailureError, "Mail server responded with #{smtp_return.status} when we were expecting 250"
       end
 
       def close_connection
