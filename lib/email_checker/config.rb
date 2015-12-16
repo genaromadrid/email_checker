@@ -17,6 +17,6 @@ module EmailChecker
       end
     end
 
-    self.reset
+    reset
   end
 end
