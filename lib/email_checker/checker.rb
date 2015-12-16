@@ -1,3 +1,5 @@
+require 'net/smtp'
+
 module EmailChecker
   class Checker
     attr_reader :domain
