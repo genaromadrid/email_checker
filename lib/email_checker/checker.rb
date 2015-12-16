@@ -11,8 +11,8 @@ module EmailChecker
     end
 
     def email_exists_in_server?
-      mailfrom(EmailChecker.config.verifier_domain) if EmailChecker.config.verifier_domain
-      rcptto(@email).tap do
+      mailfrom if EmailChecker.config.verifier_domain
+      rcptto.tap do
         close_connection
       end
     ensure
@@ -39,12 +39,12 @@ module EmailChecker
         end
       end
 
-      def mailfrom(address)
-        ensure_250(smtp.mailfrom(address))
+      def mailfrom
+        ensure_250(smtp.mailfrom(EmailChecker.config.verifier_email))
       end
 
-      def rcptto(address)
-        ensure_250(smtp.rcptto(address))
+      def rcptto
+        ensure_250(smtp.rcptto(@email))
       rescue => e
         if e.message[/^550/]
           return false
