@@ -9,7 +9,8 @@ module EmailChecker
   EMAIL_PATTERN = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   SERVER_TIMEOUT = 5000
 
-  def self.check(email)
+  def self.check(email, verifier_email=nil)
+    config.verifier_email = verifier_email if verifier_email
     checker = EmailChecker::Checker.new(email)
     return false unless checker.domain.valid?
     checker.email_exists_in_server?
