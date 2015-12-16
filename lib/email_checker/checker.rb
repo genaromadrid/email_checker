@@ -30,12 +30,12 @@ module EmailChecker
         end
         fail EmailChecker::ServerConnectionError, "Unable to connect to any of the mail servers for #{@email}"
       rescue EmailChecker::ServerConnectionError => e
-        fail EmailChecker::ServerConnectionError, e.message
+        raise EmailChecker::ServerConnectionError, e.message
       rescue => e
         if (tries -= 1) > 0
           retry
         else
-          fail EmailChecker::FailureError, e.message
+          raise EmailChecker::FailureError, e.message
         end
       end
 
@@ -49,7 +49,7 @@ module EmailChecker
         if e.message[/^550/]
           return false
         else
-          fail EmailChecker::FailureError, e.message
+          raise EmailChecker::FailureError, e.message
         end
       end
 
