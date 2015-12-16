@@ -6,8 +6,7 @@ module EmailChecker
       attr_reader :verifier_domain
 
       def reset
-        @verifier_email = 'nobody@nonexistant.com'
-        @verifier_domain = @verifier_email.split('@').last
+        @verifier_email = nil
         @test_mode = false
         if defined?(Rails) && defined?(Rails.env) && Rails.env.test?
           @test_mode = true

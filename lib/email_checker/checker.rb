@@ -9,7 +9,7 @@ module EmailChecker
     end
 
     def email_exists_in_server?
-      mailfrom(EmailChecker.config.verifier_domain)
+      mailfrom(EmailChecker.config.verifier_domain) if EmailChecker.config.verifier_domain
       rcptto(@email).tap do
         close_connection
       end
