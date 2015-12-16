@@ -19,6 +19,7 @@ module EmailChecker
 
       def smtp
         return @smtp if @smtp
+        tries ||= 5
         domain.mx_servers.each do |server|
           @smtp = Net::SMTP.start(server[:address], 25, EmailChecker.config.verifier_domain)
           return @smtp if @smtp
@@ -27,7 +28,11 @@ module EmailChecker
       rescue EmailChecker::ServerConnectionError => e
         fail EmailChecker::ServerConnectionError, e.message
       rescue => e
-        retry
+        if (tries -= 1) > 0
+          retry
+        else
+          fail EmailChecker::FailureError, e.message
+        end
       end
 
       def mailfrom(address)
