@@ -13,6 +13,8 @@ module EmailChecker
       rcptto(@email).tap do
         close_connection
       end
+    ensure
+      close_connection
     end
 
     private
