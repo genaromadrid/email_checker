@@ -2,14 +2,22 @@ require 'net/smtp'
 
 module EmailChecker
   class Checker
+
+    # @return [Domain]
     attr_reader :domain
 
+    # Returns a new instance of Checker
+    #
+    # @param email [String] The email to Check
     def initialize(email)
       @email = email
       email_m = email.match(EMAIL_PATTERN)
       @domain = Domain.new(email_m[2])
     end
 
+    # Checks if the email exists in the mail provider.
+    #
+    # @return [Boolean]
     def email_exists_in_server?
       mailfrom if EmailChecker.config.verifier_domain
       rcptto.tap do
