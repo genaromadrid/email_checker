@@ -1,6 +1,5 @@
 module EmailChecker
   class Domain
-
     def initialize(domain)
       @domain = domain
     end
@@ -10,7 +9,7 @@ module EmailChecker
     # @return [type] [description]
     def valid?
       return false unless @domain
-      Timeout::timeout(SERVER_TIMEOUT) do
+      Timeout.timeout(SERVER_TIMEOUT) do
         return true if valid_mx_records?
         return true if a_records?
       end
@@ -42,7 +41,7 @@ module EmailChecker
     end
 
     def mx_records
-      @mx_records ||= dns.getresources(@domain, Resolv::DNS::Resource::IN::MX).sort_by {|mx| mx.preference}
+      @mx_records ||= dns.getresources(@domain, Resolv::DNS::Resource::IN::MX).sort_by(&:preference)
     end
 
     def mx_servers
