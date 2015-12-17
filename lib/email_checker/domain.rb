@@ -1,12 +1,19 @@
+# @author Genaro Madrid
 module EmailChecker
   class Domain
+
+    # Returns a new instance of Domain
+    #
+    # @param domain [String] The domain name.
+    #
+    # @example EmailChecker::Domain.new('google.com')
     def initialize(domain)
       @domain = domain
     end
 
-    # Checks if the domian exists and has valid MX and A records
+    # Checks if the domian exists and has valid MX and A records.
     #
-    # @return [type] [description]
+    # @return [Boolean]
     def valid?
       return false unless @domain
       Timeout.timeout(SERVER_TIMEOUT) do
@@ -17,7 +24,7 @@ module EmailChecker
       false
     end
 
-    # Check if it has valid MX records and it can receive emails.
+    # Check if the domian has valid MX records and it can receive emails.
     # The MX server exists and it has valid A records.
     #
     # @return [Boolean]
@@ -29,21 +36,31 @@ module EmailChecker
       false
     end
 
-    # Check if the domain exists validation that has at least 1 A record.
+    # Validates that has at least 1 A record.
+    # Check if the domain exists.
     #
     # @return [Boolean]
     def a_records?
       a_records.any?
     end
 
+    # The A records for the domain.
+    #
+    # @return [Array<Resolv::DNS::Resource::IN::A>]
     def a_records
       @a_records ||= dns.getresources(@domain, Resolv::DNS::Resource::IN::A)
     end
 
+    # The MX records of the domain.
+    #
+    # @return [Array<Resolv::DNS::Resource::IN::MX>]
     def mx_records
       @mx_records ||= dns.getresources(@domain, Resolv::DNS::Resource::IN::MX).sort_by(&:preference)
     end
 
+    # The servers that this domian MX records point at.
+    #
+    # @return [Array<Hash>] Array of type { preference: 1, address: '127.0.0.1' }
     def mx_servers
       return @mx_servers if @mx_servers
       @mx_servers = []
