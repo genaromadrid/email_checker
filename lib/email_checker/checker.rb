@@ -24,14 +24,16 @@ module EmailChecker
       def smtp
         return @smtp if @smtp
         domain.mx_servers.each do |server|
-          begin
-            @smtp = Net::SMTP.start(server[:address], 25, EmailChecker.config.verifier_domain)
-            return @smtp if @smtp
-          rescue => e
-            raise EmailChecker::FailureError, e.message
-          end
+          @smtp = connect(server[:address])
+          break if @smtp
         end
         fail EmailChecker::ServerConnectionError, "Unable to connect to any of the mail servers for #{@email}"
+      end
+
+      def connect(address)
+        Net::SMTP.start(address, 25, EmailChecker.config.verifier_domain)
+      rescue => e
+        raise EmailChecker::FailureError, e.message
       end
 
       def mailfrom
