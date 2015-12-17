@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = EmailChecker::VERSION
   spec.authors       = ['Genaro Madrid']
   spec.email         = ['genmadrid@gmail.com']
-  spec.summary       = %q{Check if an email address is can receive E-mails.}
-  spec.description   = %q{Validates, at some degree, that the email you want to send to it's valid and exists.}
+  spec.summary       = 'Check if an email address is can receive E-mails.'
+  spec.description   = "Validates, at some degree, that the email you want to send to it's valid and exists."
   spec.homepage      = 'https://github.com/genaromadrid/email_checker'
   spec.license       = 'MIT'
 
