@@ -27,7 +27,7 @@ module EmailChecker
           @smtp = connect(server[:address])
           break if @smtp
         end
-        fail EmailChecker::ServerConnectionError, "Unable to connect to any of the mail servers for #{@email}"
+        fail EmailChecker::ServerConnectionError, "Unable to connect to any of the mail servers for #{@email}" unless @smtp
       end
 
       def connect(address)
