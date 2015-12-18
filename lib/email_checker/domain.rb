@@ -2,6 +2,9 @@
 module EmailChecker
   class Domain
 
+    # @return [String] the provided domain name.
+    attr_reader :domain
+
     # Returns a new instance of Domain
     #
     # @param domain [String] The domain name.
