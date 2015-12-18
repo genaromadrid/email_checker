@@ -1,6 +1,6 @@
 # Email Checker
 
-Check if an email address is can receive E-mails.
+Check if an email address can receive E-mails.
 
 ## Installation
 
